@@ -162,28 +162,20 @@ public class Day20 {
         return pattern.toString();
     }
 
-    void solve() {
-        System.out.println("\n================ INPUT ===================\n");
-        System.out.println(INPUT);
-        System.out.println("\n===================================\n");
-
-        String input = surroundWithBlack(INPUT, 11);
-        System.out.println("*****************************  input with black  *********************************");
-        System.out.println(input);
-        System.out.println("*********************************************************************************");
+    void solve1() {
+        String input = surroundWithBlack(INPUT, 70);
         List<String> outputList = getOutputString(input);
-
-        System.out.println("\n================OUTPUT 1===================\n");
-        printOutPut(outputList);
         String input2 = getInputFromOutput(outputList);
-
-        System.out.println("\n==================last=================\n");
-
-//        String ss = surroundWithBlack(input);
         List<String> outputString = getOutputString(input2);
-        System.out.println("\n================OUTPUT 2===================\n");
-        printOutPut(outputString);
 
+        int countHsh = getCountHsh(outputString);
+
+        printOutPut(outputString);
+        System.out.println();
+        System.out.println("count: " + countHsh);
+    }
+
+    private int getCountHsh(List<String> outputString) {
         int countHsh = 0;
         for (String s : outputString) {
             for (char c : s.toCharArray()) {
@@ -192,11 +184,23 @@ public class Day20 {
                 }
             }
         }
+        return countHsh;
+    }
 
+    void solve2() {
+        String input = surroundWithBlack(INPUT, 150);
+        List<String> outputList = getOutputString(input);
+        String input2;
+        for (int i = 0; i < 49; i++) {
+            input2 = getInputFromOutput(outputList);
+            outputList = getOutputString(input2);
+        }
+
+        int countHsh = getCountHsh(outputList);
+
+        printOutPut(outputList);
         System.out.println();
         System.out.println("count: " + countHsh);
-//        List<String> outputString = getOutputString(INPUT);
-
     }
 
     private String surroundWithBlack(String input, int count) {
@@ -206,10 +210,6 @@ public class Day20 {
             s = surroundWithBlack(s);
         }
         return s;
-    }
-
-    String addBlack(String pixels) {
-        return "." + pixels + ".";
     }
 
     private List<String> getOutputString(String input) {
@@ -260,14 +260,10 @@ public class Day20 {
 
     private char[][] get2DOutputArray(char[][] x) {
         char[][] output = new char[x.length - 2][x[0].length - 2];
-//        output[0] = x[0];
-//        output[x.length - 1] = x[x.length - 1];
         int rowC  = 0;
         for (int i = 1; i < x.length - 1; i++) {
             char[] row = x[i];
             char[] outputRow = new char[row.length - 2];
-//            outputRow[0] = row[0];
-//            outputRow[row.length - 1] = row[row.length - 1];
             int col  = 0;
             for (int j = 1; j < row.length - 1; j++) {
                 String pixels = getPixelToConvert(x, i - 1, j - 1);
@@ -295,6 +291,10 @@ public class Day20 {
 
     public static void main(String[] args) {
         Day20 day20 = new Day20();
-        day20.solve();
+        day20.solve1();
+        for (int i = 0; i < 3; i++) {
+            System.out.println();
+        }
+        day20.solve2();
     }
 }
